@@ -7,12 +7,8 @@ async function main(){
     console.log("User1 address: ", user1Address);
 
     //deploy AccountFactory
-    const AccountFactory = await ethers.getContractFactory("contracts/Account.sol:AccountFactory");
-    const accountFactory = await AccountFactory.deploy();
-    await accountFactory.waitForDeployment();
-
-    const accountFactoryAddress = await accountFactory.getAddress();
-    console.log("AccountFactory address: ", accountFactoryAddress);
+    const accountFactoryAddress = process.env.ACCOUNT_FACTORY_ADDRESS.toLowerCase();
+    const accountFactory = await ethers.getContractAt("contracts/Account.sol:AccountFactory", accountFactoryAddress);
 
     //call createAccount
     //it returns the whole transaction
@@ -27,8 +23,8 @@ async function main(){
     console.log("InitCode: ", initCode);
 
     //deploy EntryPoint
-    const EntryPoint = await ethers.getContractFactory("EntryPoint");
-    const entryPoint = await EntryPoint.deploy();
+    const entryPointAddress = process.env.ENTRYPOINT_ADDRESS.toLowerCase();
+    const entryPoint = await ethers.getContractAt("EntryPoint", entryPointAddress);
 
     //use try catch of EntryPoint to get sender address
     let error;

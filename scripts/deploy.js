@@ -1,15 +1,18 @@
-const hre = require("hardhat");
+const {ethers} = require("hardhat");
 
 async function main() {
+  const [signer1, signer2] = await ethers.getSigners();
 
-  const Factory = await hre.ethers.deployContract("AccountFactory");
-  await Factory.waitForDeployment();
-  console.log(`AF deployed to ${Factory.target}`);
+  const entryPoint = await ethers.deployContract("EntryPoint");
+  await entryPoint.waitForDeployment();
+  const entryPointAddress = await entryPoint.getAddress();
+  console.log("Entrypoint address: ", entryPointAddress);
   
-  // Deploy TestTarget contract (contract that has variable `x`)
-  const TestTarget = await hre.ethers.deployContract("TestTarget");
-  await TestTarget.waitForDeployment();
-  console.log(`Test deployed to ${TestTarget.target}`);
+  const accountFactory = await ethers.deployContract("contracts/Account.sol:AccountFactory");
+  await accountFactory.waitForDeployment();
+  const accountFactoryAddress = await accountFactory.getAddress();
+  console.log("AccountFactory address: ", accountFactoryAddress);
+  
 }
 
 main().catch((error) => {
