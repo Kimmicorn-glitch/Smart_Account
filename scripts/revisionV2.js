@@ -38,7 +38,7 @@ async function main(){
     const callData = await SmartAccount.interface.encodeFunctionData("execute", []);
 
     //fund the entryPoint
-    await entryPoint.depositTo(sender, { value: ethers.parseEther("0.1") });
+    //await entryPoint.depositTo(sender, { value: ethers.parseEther("0.01") });
 
 
     let userOp = {
